@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Builder
 @Getter
 @NoArgsConstructor
@@ -23,6 +25,6 @@ public class Delivery extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
-    @OneToOne(mappedBy = "DELIVERY")
+    @OneToOne(mappedBy = "DELIVERY", fetch = LAZY)
     private Delivery delivery;
 }
