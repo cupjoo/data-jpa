@@ -22,11 +22,15 @@ public class Delivery {
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
+    @OneToOne(mappedBy = "DELIVERY")
+    private Delivery delivery;
+
     @Builder
-    public Delivery(String city, String street, String zipcode, DeliveryStatus status) {
+    public Delivery(String city, String street, String zipcode, DeliveryStatus status, Delivery delivery) {
         this.city = city;
         this.street = street;
         this.zipcode = zipcode;
         this.status = status;
+        this.delivery = delivery;
     }
 }

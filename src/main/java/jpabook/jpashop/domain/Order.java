@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -21,6 +23,9 @@ public class Order {
     @JoinColumn(name="MEMBER_ID")
     private Member member;
 
+    @OneToMany(mappedBy = "DELIVERY_ID")
+    private List<OrderItem> orderItemList = new ArrayList<>();
+
     @OneToOne
     @JoinColumn(name="DELIVERY_ID")
     private Delivery delivery;
@@ -31,8 +36,10 @@ public class Order {
     private OrderStatus status;
 
     @Builder
-    public Order(Member member, Delivery delivery, LocalDateTime orderDate, OrderStatus status) {
+    public Order(Member member, List<OrderItem> orderItemList, Delivery delivery,
+                 LocalDateTime orderDate, OrderStatus status) {
         this.member = member;
+        this.orderItemList = orderItemList;
         this.delivery = delivery;
         this.orderDate = orderDate;
         this.status = status;
