@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -18,8 +17,13 @@ public class Order {
     @Column(name="ORDER_ID")
     private Long id;
 
-    @Column(name="MEMBER_ID")
-    private Long memberId;
+    @ManyToOne
+    @JoinColumn(name="MEMBER_ID")
+    private Member member;
+
+    @OneToOne
+    @JoinColumn(name="DELIVERY_ID")
+    private Delivery delivery;
 
     private LocalDateTime orderDate;
 
@@ -27,8 +31,10 @@ public class Order {
     private OrderStatus status;
 
     @Builder
-    public Order(Long memberId, LocalDateTime orderDate) {
-        this.memberId = memberId;
+    public Order(Member member, Delivery delivery, LocalDateTime orderDate, OrderStatus status) {
+        this.member = member;
+        this.delivery = delivery;
         this.orderDate = orderDate;
+        this.status = status;
     }
 }

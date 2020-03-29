@@ -4,30 +4,29 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class Member {
+public class Delivery {
 
     @Id @GeneratedValue
-    @Column(name="MEMBER_ID")
+    @Column(name="DELIVERY_ID")
     private Long id;
 
-    private String name;
     private String city;
     private String street;
     private String zipcode;
 
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus status;
+
     @Builder
-    public Member(String name, String city, String street, String zipcode) {
-        this.name = name;
+    public Delivery(String city, String street, String zipcode, DeliveryStatus status) {
         this.city = city;
         this.street = street;
         this.zipcode = zipcode;
+        this.status = status;
     }
 }

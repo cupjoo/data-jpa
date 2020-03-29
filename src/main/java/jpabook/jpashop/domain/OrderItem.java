@@ -4,10 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
@@ -19,19 +16,21 @@ public class OrderItem {
     @Column(name="ORDER_ITEM_ID")
     private Long id;
 
-    @Column(name="ORDER_ID")
-    private Long orderId;
+    @ManyToOne
+    @JoinColumn(name="ORDER_ID")
+    private Order order;
 
-    @Column(name="ITEM_ID")
-    private Long itemId;
+    @ManyToOne
+    @JoinColumn(name="ITEM_ID")
+    private Item item;
 
     private int orderPrice;
-
     private int count;
 
     @Builder
-    public OrderItem(Long itemId, int orderPrice, int count) {
-        this.itemId = itemId;
+    public OrderItem(Order order, Item item, int orderPrice, int count) {
+        this.order = order;
+        this.item = item;
         this.orderPrice = orderPrice;
         this.count = count;
     }
