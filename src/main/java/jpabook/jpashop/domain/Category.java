@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -18,9 +20,17 @@ public class Category {
 
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "PARENT_ID")
+    private Category parent;
+
+    @OneToMany(mappedBy = "parent")
+    private List<Category> child = new ArrayList<>();
+
     @Builder
-    public Category(Long id, String name) {
-        this.id = id;
+    public Category(String name, Category parent, List<Category> child) {
         this.name = name;
+        this.parent = parent;
+        this.child = child;
     }
 }
