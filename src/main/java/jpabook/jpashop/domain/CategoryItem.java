@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+@Builder
 @Getter
 @NoArgsConstructor
 @Entity
@@ -20,10 +21,4 @@ public class CategoryItem {
     @ManyToOne
     @JoinColumn(name="ITEM_ID")
     private Item item;
-
-    @Builder
-    public CategoryItem(Category category, Item item) {
-        this.category = category;
-        this.item = item;
-    }
 }

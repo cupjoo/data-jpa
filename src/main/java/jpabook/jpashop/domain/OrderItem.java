@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Builder
 @Getter
 @NoArgsConstructor
 @Entity
@@ -26,12 +27,4 @@ public class OrderItem {
 
     private int orderPrice;
     private int count;
-
-    @Builder
-    public OrderItem(Order order, Item item, int orderPrice, int count) {
-        this.order = order;
-        this.item = item;
-        this.orderPrice = orderPrice;
-        this.count = count;
-    }
 }

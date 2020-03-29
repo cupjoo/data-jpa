@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 @Getter
 @NoArgsConstructor
 @Entity
@@ -26,11 +27,4 @@ public class Category {
 
     @OneToMany(mappedBy = "parent")
     private List<Category> child = new ArrayList<>();
-
-    @Builder
-    public Category(String name, Category parent, List<Category> child) {
-        this.name = name;
-        this.parent = parent;
-        this.child = child;
-    }
 }
