@@ -4,16 +4,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Builder
 @Getter
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
 @Entity
-public class Item {
+public abstract class Item {
 
     @Id
     @GeneratedValue
@@ -21,9 +20,7 @@ public class Item {
     private Long id;
 
     private String name;
-
     private int price;
-
     private int stockQuantity;
 
 }
