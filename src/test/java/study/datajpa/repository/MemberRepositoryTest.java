@@ -7,6 +7,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.domain.Member;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -25,5 +27,33 @@ class MemberRepositoryTest {
         assertEquals(findMember.getId(), member.getId());
         assertEquals(findMember.getName(), member.getName());
         assertEquals(findMember, member);
+    }
+
+    @Test
+    public void basicCRUD() {
+        Member member1 = Member.builder().name("member1").age(10).build();
+        Member member2 = Member.builder().name("member2").age(15).build();
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        //단건 조회 검증
+        Member findMember1 = memberRepository.findById(member1.getId()).get();
+        Member findMember2 = memberRepository.findById(member2.getId()).get();
+        assertEquals(findMember1, member1);
+        assertEquals(findMember2, member2);
+
+        //리스트 조회 검증
+        List<Member> all = memberRepository.findAll();
+        assertEquals(all.size(), 2);
+
+        //카운트 검증
+        long count = memberRepository.count();
+        assertEquals(count, 2);
+
+        //삭제 검증
+        memberRepository.delete(member1);
+        memberRepository.delete(member2);
+        long deletedCount = memberRepository.count();
+        assertEquals(deletedCount, 0);
     }
 }
