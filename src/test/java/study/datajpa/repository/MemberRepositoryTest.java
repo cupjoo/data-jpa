@@ -3,6 +3,9 @@ package study.datajpa.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.controller.dto.MemberDto;
 import study.datajpa.domain.Member;
@@ -90,14 +93,27 @@ class MemberRepositoryTest {
 
     @Test
     public void paging(){
+        // given
         for(int i = 1; i <= 5; i++){
             memberRepository.save(Member.builder().name("m"+i).age(10).build());
         }
-        int age = 10, offset = 0, limit = 3;
-        List<Member> members = new ArrayList<>();
-        long totalCount = 0;
 
-        assertEquals(members.size(), 3);
-        assertEquals(totalCount, 5);
+        // when
+        PageRequest pageRequest = PageRequest.of(0, 3,
+                Sort.by(Sort.Direction.DESC,"name"));
+        Page<Member> page = memberRepository.findByAge(10, pageRequest);
+
+        //then
+        Page<MemberDto> toDto = page.map(m -> MemberDto.builder()
+                .id(m.getId()).teamName(m.getName())
+                .userName(m.getTeam().getName()).build());
+        List<MemberDto> content = toDto.getContent();
+
+        assertEquals(content.size(), 3); //조회된 데이터 수
+        assertEquals(page.getTotalElements(), 5); //전체 데이터 수
+        assertEquals(page.getNumber(), 0); //페이지 번호
+        assertEquals(page.getTotalPages(), 2); //전체 페이지 번호
+        assertTrue(page.isFirst()); //첫번째 항목인가?
+        assertTrue(page.hasNext()); //다음 페이지가 있는가?
     }
 }
