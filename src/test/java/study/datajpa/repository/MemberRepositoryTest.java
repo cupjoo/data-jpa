@@ -116,4 +116,19 @@ class MemberRepositoryTest {
         assertTrue(page.isFirst()); //첫번째 항목인가?
         assertTrue(page.hasNext()); //다음 페이지가 있는가?
     }
+
+    @Test
+    public void bulkUpdate() throws Exception {
+        //given
+        for(int i = 1; i <= 5; i++){
+            memberRepository.save(Member.builder().name("member"+i).age(10*i).build());
+        }
+        //when
+        int resultCount = memberRepository.bulkAgePlus(30);
+        Member member = memberRepository.findByName("member4").get(0);
+
+        //then
+        assertEquals(member.getAge(), 41);
+        assertEquals(resultCount, 3);
+    }
 }
