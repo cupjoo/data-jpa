@@ -11,6 +11,7 @@ import study.datajpa.controller.dto.MemberDto;
 import study.datajpa.domain.Member;
 import study.datajpa.domain.Team;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class MemberRepositoryTest {
 
-    @Autowired
-    MemberRepository memberRepository;
-
-    @Autowired
-    TeamRepository teamRepository;
+    @Autowired MemberRepository memberRepository;
+    @Autowired TeamRepository teamRepository;
 
     @Test
     public void testMember() {
@@ -130,5 +128,10 @@ class MemberRepositoryTest {
         //then
         assertEquals(member.getAge(), 41);
         assertEquals(resultCount, 3);
+    }
+
+    @Test
+    public void callCustom(){
+        List<Member> result = memberRepository.findMemberCustom();
     }
 }
