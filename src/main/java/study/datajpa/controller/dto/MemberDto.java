@@ -2,6 +2,7 @@ package study.datajpa.controller.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import study.datajpa.domain.Member;
 
 @Getter
 public class MemberDto {
@@ -15,5 +16,12 @@ public class MemberDto {
         this.id = id;
         this.userName = userName;
         this.teamName = teamName;
+    }
+
+    @Builder
+    public MemberDto(Member member){
+        this.id = member.getId();
+        this.userName = member.getName();
+        this.teamName = member.getTeam().getName();
     }
 }
